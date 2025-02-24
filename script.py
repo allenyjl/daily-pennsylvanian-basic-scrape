@@ -12,28 +12,37 @@ import bs4
 import requests
 import loguru
 
-
 def scrape_data_point():
     """
-    Scrapes the main headline from The Daily Pennsylvanian home page.
+    Scrapes the top headline from the "News", "Sports", and "Opinion" pages of The Daily Pennsylvanian.
 
     Returns:
-        str: The headline text if found, otherwise an empty string.
+        dict: A dictionary containing section names as keys and their top headlines as values.
     """
     headers = {
-    "User-Agent": "cis3500-scraper"
+        "User-Agent": "cis3500-scraper"
     }
     
-    req = requests.get("https://www.thedp.com", headers=headers)
-    loguru.logger.info(f"Request URL: {req.url}")
-    loguru.logger.info(f"Request status code: {req.status_code}")
+    sections = {
+        "News": "https://www.thedp.com/section/news",
+        "Sports": "https://www.thedp.com/section/sports",
+        "Opinion": "https://www.thedp.com/section/opinion"
+    }
+    
+    headlines = {}
+    for section, url in sections.items():
+        req = requests.get(url, headers=headers)
+        loguru.logger.info(f"Request URL: {req.url}")
+        loguru.logger.info(f"Request status code: {req.status_code}")
+        
+        if req.ok:
+            soup = bs4.BeautifulSoup(req.text, "html.parser")
+            target_element = soup.find("h3", class_="standard-link")
+            headlines[section] = "" if target_element is None else target_element.text.strip()
+            loguru.logger.info(f"{section} headline: {headlines[section]}")
+    
+    return headlines
 
-    if req.ok:
-        soup = bs4.BeautifulSoup(req.text, "html.parser")
-        target_element = soup.find("a", class_="frontpage-link")
-        data_point = "" if target_element is None else target_element.text
-        loguru.logger.info(f"Data point: {data_point}")
-        return data_point
 
 
 if __name__ == "__main__":
