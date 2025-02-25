@@ -30,6 +30,10 @@ This once-daily scraping is a good rule-of-thumb, as it is generally respectful 
 
 You can use [crontab.guru](https://crontab.guru/) to generate your own cron schedule.
 
+INTERPRETING CRON SYNTAX: \
+The initial cron expression 0 20 * * * means my job runs at 8PM everyday. The five fields are minute, hour, day of month, month, and day of week. \
+
+
 ## Python Libraries
 
 The main libraries used are:
