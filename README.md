@@ -49,6 +49,9 @@ To adapt this for your own scraping project:
   - Modifying the request URL
   - Parsing the HTML with BeautifulSoup to extract relevant data
   - Processing and outputting the scraped data as CSV, JSON etc
+  - MODIFICATIONS MADE to scrape_data_point() (BY ALLEN LIU):
+  - Included a dictionary to include News, Sports, and Opinion pages
+  - Put the original code into a for loop to loop through the pages and parse the html to get the headlines for each page
 - Update the workflow schedule as needed
 - Output and commit the scraped data to CSV, JSON or other formats
 - Add any additional libraries to `Pipfile` that you need
